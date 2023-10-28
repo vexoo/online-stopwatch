@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import TextBox from "./components/TextBox";
 import Stopwatch from "./components/Stopwatch";
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 function App() {
   const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -42,50 +43,3 @@ function App() {
 }
 
 export default App;
-
-/*
-import React, { useState, useEffect } from 'react';
-import { getLocalTheme, setLocalTheme } from '../../../util/localStorageHelper';
-import BaseModal from '../BaseModal/BaseModal';
-import SettingsToggle from './SettingsToggle';
-import { settingsModalTitle } from '../../../util/strings';
-
-interface SettingsModalProps {
-  isOpen: boolean;
-  handleClose: () => void;
-}
-
-const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, handleClose }) => {
-  const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(
-    getLocalTheme() ? getLocalTheme() === 'dark' : prefersDarkMode ? true : false
-  );
-
-  const handleDarkMode = (isDark: boolean) => {
-    setIsDarkMode(isDark);
-    setLocalTheme(isDark ? 'dark' : 'light');
-  };
-
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
-
-  return (
-    <BaseModal title={settingsModalTitle} isOpen={isOpen} handleClose={handleClose}>
-      <div className='mt-2 flex flex-col divide-y'>
-        <SettingsToggle
-          settingName='Dark Mode'
-          flag={isDarkMode}
-          handleFlag={handleDarkMode}
-        />
-      </div>
-    </BaseModal>
-  );
-};
-
-export default SettingsModal;
-*/
