@@ -25,30 +25,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.stopwatch {
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.header {
+  margin-bottom: 2%;
 }
 
-.stopwatcher {
-  margin: auto;
+.header-content {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  height: 3rem;
   align-items: center;
+  justify-content: space-between;
 }
 
-.time{
-	width: 450px;
-	height: 120px;
-	border: 1px solid black;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: black;
-	color: white;
-	font-size: 20px;
+.hr-line {
+  border: none;
+  height: 2px;
+  background-color: var(--text-color);
+  margin-top: 1px;
 }

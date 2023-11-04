@@ -4,7 +4,8 @@ import {
   startTimer,
   stopTimer,
   resetTimer,
-  incrementTime
+  incrementTime,
+	decrementTime
 } from "../reducers/stopwatchReducer";
 import Button from "./Button";
 import TimerPart from "./TimerPart";
@@ -12,7 +13,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
 import BlockIcon from "@mui/icons-material/Block";
 
-const Stopwatch: React.FC = () => {
+const Countdown: React.FC = () => {
   const isRunning = useAppSelector(state => state.stopwatch.isRunning);
   const elapsedTime = useAppSelector(state => state.stopwatch.elapsedTime);
   const style = useAppSelector(state => state.style.style);
@@ -23,7 +24,7 @@ const Stopwatch: React.FC = () => {
 
     if (isRunning) {
       timer = window.setInterval(() => {
-        dispatch(incrementTime());
+        dispatch(decrementTime());
       }, 10);
     } else if (timer !== null) {
       window.clearInterval(timer);
@@ -54,7 +55,7 @@ const Stopwatch: React.FC = () => {
   return (
     <div className="">
       <div
-        className={`font-mono text-8xl min-h-[450px] flex flex-row justify-center items-center 
+        className={`font-mono text-8xl min-h-[500px] flex flex-row justify-center items-center 
 				${style === 1 && "ml-16"}`}
       >
         <TimerPart value={hours} text="h" hideWhenZero={true} />
@@ -71,4 +72,4 @@ const Stopwatch: React.FC = () => {
   );
 };
 
-export default Stopwatch;
+export default Countdown;

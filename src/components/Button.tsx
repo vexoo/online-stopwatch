@@ -6,6 +6,7 @@ interface ButtonProps {
   text?: string;
   icon?: ReactNode;
   children?: ReactNode;
+  textButton?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -14,14 +15,20 @@ const Button: React.FC<ButtonProps> = ({
   text,
   icon,
   children,
+  textButton = false,
   ...props
 }: ButtonProps) => {
   const buttonDefaultClass =
     "cursor-pointer rounded-md border-none bg-gray-500 px-3 py-1 text-center text-sm uppercase tracking-wide text-gray-500 text-white shadow-md dark:text-gray-300";
 
+  const textButtonDefaultClass = "text-x2 uppercase tracking-wide"; //dark:text-white
+
+  const defaultClassName =
+    textButton === true ? textButtonDefaultClass : buttonDefaultClass;
+
   return (
     <button
-      className={`${buttonDefaultClass} ${className}`}
+      className={`${defaultClassName} ${className}`}
       onClick={onClick}
       {...props}
     >

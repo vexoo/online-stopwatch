@@ -1,23 +1,28 @@
 import React from "react";
+import { useAppSelector } from "../reducers/hooks";
 
 interface TimerPartProps {
   value: string;
   text: string;
   hideWhenZero?: boolean;
+  hideColon?: boolean;
 }
 
 const TimerPart: React.FC<TimerPartProps> = ({
   value,
   text,
-  hideWhenZero = false
+  hideWhenZero = false,
+  hideColon = false
 }: TimerPartProps) => {
-  if (hideWhenZero && value === "00") {
-    return null;
-  }
+  const style = useAppSelector(state => state.style.style);
+
+  if (hideWhenZero && value === "00") return null;
+
   return (
-    <div className="flex flex-row pr-8">
+    <div className={`flex flex-row ${style === 2 ? "" : "pr-8"}`}>
       {value}
-      <div className="text-4xl pt-12">{text}</div>
+      {style === 2 && !hideColon && ":"}
+      {style !== 2 && <div className="text-4xl pt-12">{text}</div>}
     </div>
   );
 };
