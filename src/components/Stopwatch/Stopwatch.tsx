@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "../reducers/hooks";
+import { useAppSelector, useAppDispatch } from "../../reducers/hooks";
 import {
   startTimer,
   stopTimer,
   resetTimer,
   incrementTime
-} from "../reducers/stopwatchReducer";
-import Button from "./Button";
-import TimerPart from "./TimerPart";
+} from "../../reducers/stopwatchReducer";
+import Button from "../Button";
+import TimerPart from "../TimerPart";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
 import BlockIcon from "@mui/icons-material/Block";
+import { formatTimer } from "../../utils/helpers";
 
 const Stopwatch: React.FC = () => {
   const isRunning = useAppSelector(state => state.stopwatch.isRunning);
@@ -35,19 +36,6 @@ const Stopwatch: React.FC = () => {
       }
     };
   }, [isRunning, dispatch]);
-
-  const formatValue = (value: number, divisor: number) => {
-    return ("0" + Math.floor((value / divisor) % 60)).slice(-2);
-  };
-
-  const formatTimer = (currentTimer: number) => {
-    const hours = formatValue(currentTimer, 600000);
-    const minutes = formatValue(currentTimer, 60000);
-    const seconds = formatValue(currentTimer, 1000);
-    const milliseconds = ("0" + ((currentTimer / 10) % 100)).slice(-2);
-
-    return { hours, minutes, seconds, milliseconds };
-  };
 
   const { hours, minutes, seconds, milliseconds } = formatTimer(elapsedTime);
 

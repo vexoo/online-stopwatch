@@ -12,7 +12,7 @@ function App() {
     <Div100vh>
       <Header />
       <ModeSelector mode={mode} setMode={setMode} />
-      <Stopwatch />
+      {mode === "stopwatch" ? <Stopwatch /> : <Countdown />}
     </Div100vh>
   );
 }
