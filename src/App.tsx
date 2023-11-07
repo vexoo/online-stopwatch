@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Div100vh from "react-div-100vh";
 import Stopwatch from "./components/Stopwatch";
@@ -8,6 +8,11 @@ import ModeSelector from "./components/ModeSelector";
 
 function App() {
   const [mode, setMode] = useState<"stopwatch" | "countdown">("stopwatch");
+
+  useEffect(() => {
+    document.title = "Stopwatch";
+  }, []);
+
   return (
     <Div100vh>
       <Header />

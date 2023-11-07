@@ -3,6 +3,7 @@ import Button from "./Button";
 import { useAppSelector, useAppDispatch } from "../reducers/hooks";
 import { changeStyle } from "../reducers/styleReducer";
 import { resetTimer } from "../reducers/stopwatchReducer";
+import AlertSelector from "./AlertSelector";
 
 interface ModeSelectorProps {
   mode: "stopwatch" | "countdown";
@@ -24,20 +25,25 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ mode, setMode }) => {
   };
 
   return (
-    <div className="flex flex-row justify-center items-center mr-3 text-xl">
-      <Button
-        onClick={() => switchToStopwatch()}
-        text="Stopwatch"
-        textButton={true}
-        className={`mr-2 ${mode === "stopwatch" && "underline"}`}
-      />
-      <p className="mr-2">/</p>
-      <Button
-        onClick={() => switchToCountdown()}
-        text="Timer"
-        textButton={true}
-        className={`${mode === "countdown" && "underline"}`}
-      />
+    <div className="flex flex-col justify-center items-center text-xl">
+      <div className="button-container">
+        <Button
+          onClick={() => switchToStopwatch()}
+          text="Stopwatch"
+          textButton={true}
+          className={`mr-2 ${mode === "stopwatch" && "underline"}`}
+        />
+        <p>/</p>
+        <Button
+          onClick={() => switchToCountdown()}
+          text="Timer"
+          textButton={true}
+          className={`${mode === "countdown" && "underline"}`}
+        />
+      </div>
+      <div className="flex flex-row justify-center items-center text-xl ml-auto">
+        {mode === "countdown" && <AlertSelector />}
+      </div>
     </div>
   );
 };

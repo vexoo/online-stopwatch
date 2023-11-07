@@ -27,14 +27,11 @@ export const stopwatchSlice = createSlice({
     },
     incrementTime: state => {
       state.elapsedTime += 10;
-    },
-    decrementTime: state => {
-      state.elapsedTime -= 10;
     }
   }
 });
 
-export const { startTimer, stopTimer, resetTimer, incrementTime, decrementTime } =
+export const { startTimer, stopTimer, resetTimer, incrementTime } =
   stopwatchSlice.actions;
 
 export const selectIsRunning = (state: RootState) => state.stopwatch.isRunning;

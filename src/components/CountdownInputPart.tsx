@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAppSelector } from "../reducers/hooks";
 
 interface CountdownInputPartProps {
@@ -6,6 +6,7 @@ interface CountdownInputPartProps {
   maxValue: number;
   text: string;
   hideColon?: boolean;
+	editable?: boolean; 
   setValue: (value: number) => void;
 }
 
@@ -13,7 +14,8 @@ const CountdownInputPart: React.FC<CountdownInputPartProps> = ({
   value,
   maxValue,
   text,
-  hideColon = false,
+  hideColon = true,
+	editable = true,
   setValue
 }: CountdownInputPartProps) => {
   const style = useAppSelector(state => state.style.style);
@@ -35,14 +37,17 @@ const CountdownInputPart: React.FC<CountdownInputPartProps> = ({
 
   return (
     <div className={`flex flex-row ${style === 2 ? "" : "pr-8"}`}>
-      <input
-        className="w-32 text-black text-right"
-        type="number"
-        placeholder="0"
-        onChange={handleInputChange}
-        value={value}
-      />
-
+      {editable ? (
+        <input
+          className="w-32 text-black text-right"
+          type="number"
+          placeholder="0"
+          onChange={handleInputChange}
+          value={value}
+        />
+      ) : (
+        <div>{value}</div>
+      )}
       {style === 2 && !hideColon && ":"}
       {style !== 2 && <div className="text-4xl pt-12">{text}</div>}
     </div>

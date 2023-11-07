@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import stopwatchReducer from "./stopwatchReducer";
 import styleReducer from "./styleReducer";
 import countdownReducer from "./countdownReducer";
+import alertReducer from "./alertReducer";
 
 export const store = configureStore({
   reducer: {
     stopwatch: stopwatchReducer,
-		countdown: countdownReducer,
-    style: styleReducer
+    countdown: countdownReducer,
+    style: styleReducer,
+    alert: alertReducer
   }
 });
 

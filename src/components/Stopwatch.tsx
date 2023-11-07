@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "../../reducers/hooks";
+import { useAppSelector, useAppDispatch } from "../reducers/hooks";
 import {
   startTimer,
   stopTimer,
   resetTimer,
   incrementTime
-} from "../../reducers/stopwatchReducer";
-import Button from "../Button";
-import TimerPart from "../TimerPart";
+} from "../reducers/stopwatchReducer";
+import Button from "./Button";
+import TimerPart from "./TimerPart";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import StopIcon from "@mui/icons-material/Stop";
 import BlockIcon from "@mui/icons-material/Block";
-import { formatTimer } from "../../utils/helpers";
+import { formatTimer } from "../utils/helpers";
 
 const Stopwatch: React.FC = () => {
   const isRunning = useAppSelector(state => state.stopwatch.isRunning);

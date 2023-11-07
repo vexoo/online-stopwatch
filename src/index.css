@@ -42,3 +42,10 @@ body {
   background-color: var(--text-color);
   margin-top: 1px;
 }
+
+.button-container {
+  flex: 1; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

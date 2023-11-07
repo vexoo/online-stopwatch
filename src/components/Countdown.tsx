@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../reducers/hooks";
 import {
   startTimer,
@@ -18,25 +18,43 @@ import { formatTimer } from "../utils/helpers";
 const Countdown: React.FC = () => {
   const isRunning = useAppSelector(state => state.countdown.isRunning);
   const timeLeft = useAppSelector(state => state.countdown.timeLeft);
+  const audioFile = useAppSelector(state => state.alert.audioFile);
+  const soundLevel = useAppSelector(state => state.alert.soundLevel);
   const style = useAppSelector(state => state.style.style);
   const dispatch = useAppDispatch();
 
-  const [inputHours, setInputHours] = useState(0);
-  const [inputMinutes, setInputMinutes] = useState(0);
-  const [inputSeconds, setInputSeconds] = useState(0);
-  const [inputMilliseconds, setInputMilliseconds] = useState(0);
+  const [inputHours, setInputHours] = useState<number>(0);
+  const [inputMinutes, setInputMinutes] = useState<number>(0);
+  const [inputSeconds, setInputSeconds] = useState<number>(0);
+  const [inputMilliseconds, setInputMilliseconds] = useState<number>(0);
 
-  const [hours, setHours] = useState("00");
-  const [minutes, setMinutes] = useState("00");
-  const [seconds, setSeconds] = useState("00");
-  const [milliseconds, setMilliseconds] = useState("00");
+  const [hours, setHours] = useState<string>("00");
+  const [minutes, setMinutes] = useState<string>("00");
+  const [seconds, setSeconds] = useState<string>("00");
+  const [milliseconds, setMilliseconds] = useState<string>("00");
 
-  const [editable, setEditable] = useState(true);
+  const [editable, setEditable] = useState<boolean>(true);
+
+  const [playSound, setPlaySound] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+	useEffect(() => {
+    if (audioRef.current) {
+      const volume = soundLevel;
+      audioRef.current.volume = volume;
+      console.log(audioRef.current.volume);
+    }
+  }, [soundLevel]);
+
 
   useEffect(() => {
     let timer: number | null = null;
 
     if (isRunning) {
+      if (timeLeft === 0) {
+        dispatch(stopTimer());
+        setPlaySound(true);
+      }
       const formattedTime = formatTimer(timeLeft);
 
       setHours(formattedTime.hours);
@@ -67,13 +85,20 @@ const Countdown: React.FC = () => {
   }, [inputHours, inputMinutes, inputSeconds, inputMilliseconds]);
 
   const handleStart = () => {
-    dispatch(startTimer());
-    setEditable(false);
+    if (timeLeft > 0) {
+      dispatch(startTimer());
+      setEditable(false);
+    }
   };
 
   const handleReset = () => {
     dispatch(resetTimer());
     setEditable(true);
+    setPlaySound(false);
+    setInputHours(0);
+    setInputMinutes(0);
+    setInputSeconds(0);
+    setInputMilliseconds(0);
   };
 
   return (
@@ -108,6 +133,7 @@ const Countdown: React.FC = () => {
               text="ms"
               setValue={setInputMilliseconds}
               hideColon={true}
+              editable={false}
             />
           </>
         ) : (
@@ -124,6 +150,11 @@ const Countdown: React.FC = () => {
         <Button onClick={() => dispatch(stopTimer())} icon={<StopIcon />} />
         <Button onClick={() => handleReset()} icon={<BlockIcon />} />
       </div>
+      {playSound && (
+        <audio ref={audioRef} autoPlay>
+          <source src={audioFile} type="audio/wav" />
+        </audio>
+      )}
     </div>
   );
 };
