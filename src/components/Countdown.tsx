@@ -14,12 +14,15 @@ import BlockIcon from "@mui/icons-material/Block";
 import CountdownInputPart from "./CountdownInputPart";
 import TimerPart from "./TimerPart";
 import { formatTimer } from "../utils/helpers";
+import AlertPlayer from "./AlertPlayer";
 
-const Countdown: React.FC = () => {
+interface CountdownProps {
+  audioRef: React.RefObject<HTMLAudioElement>;
+}
+
+const Countdown: React.FC<CountdownProps> = ({ audioRef }: CountdownProps) => {
   const isRunning = useAppSelector(state => state.countdown.isRunning);
   const timeLeft = useAppSelector(state => state.countdown.timeLeft);
-  const audioFile = useAppSelector(state => state.alert.audioFile);
-  const soundLevel = useAppSelector(state => state.alert.soundLevel);
   const style = useAppSelector(state => state.style.style);
   const dispatch = useAppDispatch();
 
@@ -34,26 +37,14 @@ const Countdown: React.FC = () => {
   const [milliseconds, setMilliseconds] = useState<string>("00");
 
   const [editable, setEditable] = useState<boolean>(true);
-
-  const [playSound, setPlaySound] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-	useEffect(() => {
-    if (audioRef.current) {
-      const volume = soundLevel;
-      audioRef.current.volume = volume;
-      console.log(audioRef.current.volume);
-    }
-  }, [soundLevel]);
-
-
+	
   useEffect(() => {
     let timer: number | null = null;
 
     if (isRunning) {
       if (timeLeft === 0) {
         dispatch(stopTimer());
-        setPlaySound(true);
+        audioRef.current?.play();
       }
       const formattedTime = formatTimer(timeLeft);
 
@@ -94,7 +85,6 @@ const Countdown: React.FC = () => {
   const handleReset = () => {
     dispatch(resetTimer());
     setEditable(true);
-    setPlaySound(false);
     setInputHours(0);
     setInputMinutes(0);
     setInputSeconds(0);
@@ -127,14 +117,6 @@ const Countdown: React.FC = () => {
               text="s"
               setValue={setInputSeconds}
             />
-            <CountdownInputPart
-              value={inputMilliseconds.toString()}
-              maxValue={100}
-              text="ms"
-              setValue={setInputMilliseconds}
-              hideColon={true}
-              editable={false}
-            />
           </>
         ) : (
           <>
@@ -150,11 +132,6 @@ const Countdown: React.FC = () => {
         <Button onClick={() => dispatch(stopTimer())} icon={<StopIcon />} />
         <Button onClick={() => handleReset()} icon={<BlockIcon />} />
       </div>
-      {playSound && (
-        <audio ref={audioRef} autoPlay>
-          <source src={audioFile} type="audio/wav" />
-        </audio>
-      )}
     </div>
   );
 };

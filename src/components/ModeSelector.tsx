@@ -1,9 +1,7 @@
 import React from "react";
 import Button from "./Button";
-import { useAppSelector, useAppDispatch } from "../reducers/hooks";
-import { changeStyle } from "../reducers/styleReducer";
+import { useAppDispatch } from "../reducers/hooks";
 import { resetTimer } from "../reducers/stopwatchReducer";
-import AlertSelector from "./AlertSelector";
 
 interface ModeSelectorProps {
   mode: "stopwatch" | "countdown";
@@ -11,7 +9,6 @@ interface ModeSelectorProps {
 }
 
 const ModeSelector: React.FC<ModeSelectorProps> = ({ mode, setMode }) => {
-  //const style = useAppSelector(state => state.style.style);
   const dispatch = useAppDispatch();
 
   const switchToStopwatch = () => {
@@ -33,16 +30,13 @@ const ModeSelector: React.FC<ModeSelectorProps> = ({ mode, setMode }) => {
           textButton={true}
           className={`mr-2 ${mode === "stopwatch" && "underline"}`}
         />
-        <p>/</p>
+        <p className="mr-2">/</p>
         <Button
           onClick={() => switchToCountdown()}
           text="Timer"
           textButton={true}
           className={`${mode === "countdown" && "underline"}`}
         />
-      </div>
-      <div className="flex flex-row justify-center items-center text-xl ml-auto">
-        {mode === "countdown" && <AlertSelector />}
       </div>
     </div>
   );

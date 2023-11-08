@@ -3,14 +3,18 @@ import Button from "./Button";
 import { useAppSelector, useAppDispatch } from "../reducers/hooks";
 import { changeStyle } from "../reducers/styleReducer";
 import { setAudioFile, setSoundLevel } from "../reducers/alertReducer";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { audioFilesList } from "../utils/helpers";
 
-const audioFilesList = {
-  "Alert: Error": "audio/alert_error-01.wav",
-  "High Intensity": "audio/alert_high-intensity.wav",
-  "Simple Alert": "audio/alert_simple.wav"
-};
+interface AlertSelectorProps {
+  audioRef: React.RefObject<HTMLAudioElement>;
+}
 
-const AlertSelector: React.FC = () => {
+const AlertSelector: React.FC<AlertSelectorProps> = ({
+  audioRef
+}: AlertSelectorProps) => {
   const audioFile = useAppSelector(state => state.alert.audioFile);
   const soundLevel = useAppSelector(state => state.alert.soundLevel);
   const dispatch = useAppDispatch();
@@ -26,30 +30,39 @@ const AlertSelector: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <select
-        className="dark:text-black"
-        value={audioFile}
-        onChange={handleAudioChange}
-      >
-        <option>Select an audio file</option>
-        {Object.entries(audioFilesList).map(([name, path]) => (
-          <option key={path} value={path}>
-            {name}
-          </option>
-        ))}
-      </select>
-      <div className="flex flex-row">
-        <input
-          className="w-14"
-          type="range"
-          min="0"
-          max="1"
-          step="0.1"
-          value={soundLevel}
-          onChange={handleVolumeChange}
-        />
-        <p className="font-mono text-lg">{soundLevel * 100}%</p>
+    <div className="flex flex-row  text-xl ml-auto">
+      <div className="flex flex-col ml-auto">
+        <div className="flex flex-row">
+          <Button
+            onClick={() =>  audioRef.current?.play()}
+            icon={<PlayArrowIcon />}
+            className="mr-1"
+          />
+          <select
+            className="dark:text-black"
+            value={audioFile}
+            onChange={handleAudioChange}
+          >
+            {Object.entries(audioFilesList).map(([name, path]) => (
+              <option key={path} value={path}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex flex-row">
+          <VolumeUpIcon className="mt-1" />
+          <input
+            className="w-25"
+            type="range"
+            min="0"
+            max="1"
+            step="0.1"
+            value={soundLevel}
+            onChange={handleVolumeChange}
+          />
+          <p className="font-mono text-lg">{soundLevel * 100}%</p>
+        </div>
       </div>
     </div>
   );

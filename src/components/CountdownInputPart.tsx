@@ -49,7 +49,7 @@ const CountdownInputPart: React.FC<CountdownInputPartProps> = ({
         <div>{value}</div>
       )}
       {style === 2 && !hideColon && ":"}
-      {style !== 2 && <div className="text-4xl pt-12">{text}</div>}
+      {style !== 2 && <div className="text-4xl pt-12 ml-1">{text}</div>}
     </div>
   );
 };

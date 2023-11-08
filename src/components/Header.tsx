@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "../reducers/hooks";
 import Button from "./Button";
-import { changeStyle } from "../reducers/styleReducer";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import StyleSelector from "./StyleSelector";
 
 const Header: React.FC = () => {
-  const style = useAppSelector(state => state.style.style);
   const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
   const [isDarkMode, setIsDarkMode] = useState<boolean>(
     prefersDarkMode ? true : false

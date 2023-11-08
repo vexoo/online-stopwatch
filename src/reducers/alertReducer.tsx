@@ -7,7 +7,7 @@ interface alertState {
 }
 
 const initialState: alertState = {
-  audioFile: "",
+  audioFile: "audio/alert_error-01.wav",
   soundLevel: 0
 };
 
